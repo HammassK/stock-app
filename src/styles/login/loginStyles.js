@@ -2,9 +2,9 @@ export const loginStyles = {
   mainContainer: {
     display: "flex",
     width: "100vw",
-    height: "100vh",
+    minHeight: "100vh",
     backgroundColor: "black",
-    "@media (max-width: 768px)": {
+    "@media (max-width: 1199px)": {
       justifyContent: "center",
     },
   },
@@ -12,7 +12,7 @@ export const loginStyles = {
   imageSection: {
     display: { xs: "none", md: "flex" },
     width: "60%",
-    height: "100%",
+    minHeight: "100%",
     position: "relative",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -29,17 +29,14 @@ export const loginStyles = {
     },
     display: "flex",
     justifyContent: "center",
-    p: {
-      xs: "28px",
-      sm: "26px",
-      md: "44px",
-    },
-    my: "2%",
     mr: { md: "5%" },
+    height: "fit-content",
+    alignSelf: "center",
+    py: "4%",
   },
 
   formContainer: {
-    width: { xs: "90%", md: "70%" },
+    width: { xs: "90%", md: "80%" },
     gap: "8px",
     display: "flex",
     flexDirection: "column",
@@ -92,10 +89,12 @@ export const loginStyles = {
     alignItems: "center",
     gap: "16px",
   },
+
   dividerLine: {
     backgroundColor: "#FFFFFF",
-    width: { xs: "120px", md: "168px" },
+    width: "40%",
   },
+
   dividerText: {
     color: "#FFFFFF",
     fontFamily: "Aspekta, sans-serif",
@@ -111,6 +110,7 @@ export const loginStyles = {
     "@media (max-width: 600px)": {
       fontSize: "14px",
     },
+    alignSelf: "center",
   },
 
   buttonsContainer: {

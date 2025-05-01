@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import { loginStyles } from "../../styles/login/loginStyles";
 import LoginButtons from "../../components/auth/login/LoginButtons";
@@ -11,9 +11,15 @@ import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { loginValidation } from "../../utils/ValidationSchema";
 import { toast } from "react-hot-toast";
+import AppLogo from "../../components/auth/AppLogo";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../auth/useAuth";
 
 const Login = () => {
-  const s = loginStyles;
+  const { logIn } = useAuth();
+  const navigate = useNavigate();
+  const styles = loginStyles;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const login = async (email, password) => {
     return await signInWithEmailAndPassword(auth, email, password);
@@ -27,9 +33,13 @@ const Login = () => {
     validationSchema: loginValidation,
 
     onSubmit: (values) => {
+      setIsSubmitting(true);
+
       login(values.email, values.password)
-        .then(() => {
+        .then((token) => {
+          logIn(token);
           toast.success("Logged in successfully");
+          navigate("/dashboard");
         })
         .catch((error) => {
           if (error.code === "auth/invalid-credential") {
@@ -37,22 +47,27 @@ const Login = () => {
           } else {
             toast.error(`${error.message}`);
           }
+        })
+        .finally(() => {
+          setIsSubmitting(false);
         });
     },
   });
 
   return (
-    <Box sx={s.mainContainer}>
+    <Box sx={styles.mainContainer}>
       <Box
-        sx={s.imageSection}
+        sx={styles.imageSection}
         style={{ backgroundImage: "url('/assets/svgs/auth/authImage.svg')" }}
-      />
+      >
+        <AppLogo pageType={"login"} />
+      </Box>
 
-      <Box sx={s.formSection}>
-        <Box sx={s.formContainer}>
+      <Box sx={styles.formSection}>
+        <Box sx={styles.formContainer}>
           <AuthHeading heading="Welcome Back" />
 
-          <Box sx={s.loginFrom}>
+          <Box sx={styles.loginFrom}>
             <LoginForm
               handleBlur={formik.handleBlur}
               handleChange={formik.handleChange}
@@ -63,7 +78,7 @@ const Login = () => {
               touched={formik.touched}
             />
 
-            <Box sx={s.buttonsContainer}>
+            <Box sx={styles.buttonsContainer}>
               <ButtonComponent
                 variant="signup"
                 hover="black"
@@ -72,7 +87,7 @@ const Login = () => {
                 backgroundColor={GRADIENTS.brand}
                 hoverColor={GRADIENTS.brandHover}
                 onClick={formik.handleSubmit}
-                isLoading={false}
+                isLoading={isSubmitting}
               />
               <LoginButtons />
             </Box>

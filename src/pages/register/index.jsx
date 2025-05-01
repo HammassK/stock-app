@@ -16,8 +16,7 @@ import useAuth from "../../auth/useAuth";
 
 const Register = () => {
   const { signUp } = useAuth();
-
-  const s = registerStyles;
+  const styles = registerStyles;
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -67,10 +66,10 @@ const Register = () => {
   });
 
   return (
-    <Box sx={s.mainContainer}>
-      <Box sx={s.formContainer}>
-        <Box sx={s.formBox}>
-          <Box sx={s.contentContainer}>
+    <Box sx={styles.mainContainer}>
+      <Box sx={styles.formContainer}>
+        <Box sx={styles.formBox}>
+          <Box sx={styles.contentContainer}>
             <AuthHeading heading="Get Started" />
 
             <RegisterForm
@@ -95,9 +94,9 @@ const Register = () => {
               />
             </Box>
             <Divider sx={{ mt: 2 }}>
-              <Typography sx={s.dividerText}>
+              <Typography sx={styles.dividerText}>
                 Already have an account?
-                <Link sx={s.loginLink} onClick={() => navigate("/login")}>
+                <Link sx={styles.loginLink} onClick={() => navigate("/login")}>
                   Log In
                 </Link>
               </Typography>
@@ -107,7 +106,7 @@ const Register = () => {
       </Box>
 
       <Box
-        sx={s.imageSection}
+        sx={styles.imageSection}
         style={{ backgroundImage: "url('/assets/svgs/auth/authImage.svg')" }}
       >
         <AppLogo pageType={"register"} />

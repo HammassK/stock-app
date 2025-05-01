@@ -4,19 +4,19 @@ import React from "react";
 import { loginStyles } from "../../../styles/login/loginStyles";
 
 const LoginButtons = () => {
-  const s = loginStyles;
+  const styles = loginStyles;
 
   return (
-    <Box sx={s.loginButtonsContainer}>
-      <Box sx={s.dividerContainer}>
-        <Divider sx={s.dividerLine} />
-        <Typography sx={s.dividerText}>or</Typography>
-        <Divider sx={s.dividerLine} />
+    <Box sx={styles.loginButtonsContainer}>
+      <Box sx={styles.dividerContainer}>
+        <Divider sx={styles.dividerLine} />
+        <Typography sx={styles.dividerText}>or</Typography>
+        <Divider sx={styles.dividerLine} />
       </Box>
 
-      <Typography sx={s.signupText}>
+      <Typography sx={styles.signupText}>
         Don't have an account?
-        <a href="/register" style={s.signupLink}>
+        <a href="/register" style={styles.signupLink}>
           Sign up
         </a>
       </Typography>
