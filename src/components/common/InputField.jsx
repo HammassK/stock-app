@@ -25,6 +25,7 @@ const InputField = ({
   inputRef,
   name,
   multilpleRows,
+  onKeyDown,
   sx,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -89,6 +90,7 @@ const InputField = ({
         type={type ? (showPassword ? "text" : type) : "text"}
         onChange={onChange}
         onBlur={onBlur}
+        onKeyDown={onKeyDown}
         size={size}
         InputProps={{
           startAdornment: icon && (

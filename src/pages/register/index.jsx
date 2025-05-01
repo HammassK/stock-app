@@ -6,7 +6,7 @@ import ButtonComponent from "../../components/common/ButtonComponent";
 import RegisterForm from "../../components/auth/register/RegisterForm";
 import { registerStyles } from "../../styles/register/registerStyles";
 import { GRADIENTS } from "../../constants/gradient";
-import { signUpValidation } from "../../utils/ValidationSchema";
+import { signUpValidation } from "../../utils/validationSchema";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase";
 import { toast } from "react-hot-toast";

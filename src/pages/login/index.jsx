@@ -9,7 +9,7 @@ import ButtonComponent from "../../components/common/ButtonComponent";
 import { GRADIENTS } from "../../constants/gradient";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { loginValidation } from "../../utils/ValidationSchema";
+import { loginValidation } from "../../utils/validationSchema";
 import { toast } from "react-hot-toast";
 import AppLogo from "../../components/auth/AppLogo";
 import { useNavigate } from "react-router-dom";

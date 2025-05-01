@@ -5,26 +5,38 @@ import { loginStyles } from "../../../styles/login/loginStyles";
 import InputField from "../../common/InputField";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { handleReturnKey } from "../../../utils/helper";
 
-const LoginForm = ({ values, handleChange, handleBlur, errors, touched }) => {
-  const s = loginStyles;
+const LoginForm = ({
+  values,
+  handleChange,
+  handleBlur,
+  errors,
+  touched,
+  handleSubmit,
+  isSubmitting,
+}) => {
+  const styles = loginStyles;
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
 
   return (
-    <Box sx={s.formBox}>
+    <Box sx={styles.formBox}>
       <InputField
         id="email"
         label="Email"
         usericon={true}
         icon={<MailOutlineIcon />}
-        placeholder="Example@email.com"
+        placeholder="example@email.com"
         size="small"
         value={values.email}
         onChange={handleChange}
         onBlur={handleBlur}
         error={touched.email && errors.email}
         inputRef={emailRef}
+        onKeyDown={(event) =>
+          handleReturnKey(event, passwordRef, "email", "next")
+        }
       />
 
       <InputField
@@ -40,6 +52,16 @@ const LoginForm = ({ values, handleChange, handleBlur, errors, touched }) => {
         onBlur={handleBlur}
         error={touched.password && errors.password}
         inputRef={passwordRef}
+        onKeyDown={(event) => {
+          if (!isSubmitting)
+            handleReturnKey(
+              event,
+              passwordRef,
+              "password",
+              "submit",
+              handleSubmit
+            );
+        }}
       />
     </Box>
   );
