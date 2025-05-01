@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import Dashboard from "./pages/dashboard";
+import authStorage from "./auth/storage";
+import ForgetPassword from "./pages/forget-password";
+
+const PrivateRoute = ({ children }) => {
+  const token = authStorage.getToken();
+  const location = useLocation();
+  return token ? (
+    children
+  ) : (
+    <Navigate to="/login" replace state={{ from: location }} />
+  );
+};
+
+const PublicRoute = ({ children }) => {
+  const token = authStorage.getToken();
+  return token ? <Navigate to="/dashboard" replace /> : children;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Navigate
+            to={authStorage.getToken() ? "/dashboard" : "/login"}
+            replace
+          />
+        }
+      />
+
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/forget-password"
+        element={
+          <PublicRoute>
+            <ForgetPassword />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
