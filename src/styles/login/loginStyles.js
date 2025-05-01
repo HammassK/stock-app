@@ -134,9 +134,16 @@ export const loginStyles = {
     cursor: "pointer",
   },
 
-  loginButtonsContainer:   {
+  loginButtonsContainer: {
     display: "flex",
     flexDirection: "column",
     gap: "16px",
+  },
+
+  appLogo: {
+    position: "absolute",
+    top: 32,
+    zIndex: 10,
+    width: { xs: 100, sm: 220 },
   },
 };
