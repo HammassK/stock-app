@@ -27,3 +27,10 @@ export const signUpValidation = yup.object().shape({
     .oneOf([yup.ref("password")], "Passwords do not match")
     .required("Confirm password is required."),
 });
+
+export const forgetPasswordValidation = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter valid email")
+    .required("Email address is required."),
+});

@@ -3,6 +3,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Dashboard from "./pages/dashboard";
 import authStorage from "./auth/storage";
+import ForgetPassword from "./pages/forget-password";
 
 const PrivateRoute = ({ children }) => {
   const token = authStorage.getToken();
@@ -45,6 +46,14 @@ function App() {
         element={
           <PublicRoute>
             <Register />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/forget-password"
+        element={
+          <PublicRoute>
+            <ForgetPassword />
           </PublicRoute>
         }
       />

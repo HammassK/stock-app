@@ -3,61 +3,41 @@ import { Typography, Divider, Box, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AuthHeading from "../../components/auth/AuthHeading";
 import ButtonComponent from "../../components/common/ButtonComponent";
-import RegisterForm from "../../components/auth/register/RegisterForm";
 import { registerStyles } from "../../styles/register/registerStyles";
 import { GRADIENTS } from "../../constants/gradient";
-import { signUpValidation } from "../../utils/validationSchema";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { forgetPasswordValidation } from "../../utils/validationSchema";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
 import { toast } from "react-hot-toast";
 import AppLogo from "../../components/auth/AppLogo";
 import { useState } from "react";
-import useAuth from "../../auth/useAuth";
+import ForgetPasswordForm from "../../components/auth/forget-password/ForgetPasswordForm";
 
-const Register = () => {
-  const { signUp } = useAuth();
+const ForgetPassword = () => {
   const styles = registerStyles;
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const register = async (email, password, firstName, lastName) => {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    await updateProfile(userCredential.user, {
-      displayName: `${firstName} ${lastName}`,
-    });
-
-    return userCredential;
+  const forgetPassword = async (email) => {
+    return await sendPasswordResetEmail(auth, email);
   };
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
       email: "",
-      password: "",
-      confirmPassword: "",
     },
-    validationSchema: signUpValidation,
+    validationSchema: forgetPasswordValidation,
 
     onSubmit: (values) => {
       setIsSubmitting(true);
 
-      register(values.email, values.password, values.firstName, values.lastName)
-        .then((token) => {
-          signUp(token);
-          toast.success("You’ve registered successfully.");
-          navigate("/dashboard");
+      forgetPassword(values.email)
+        .then(() => {
+          toast.success("Reset link sent. Check your inbox.");
+          navigate("/login");
         })
         .catch((error) => {
-          if (error.code === "auth/email-already-in-use") {
-            toast.error("Email already in use.");
-          } else {
-            toast.error(`${error.message}`);
-          }
+          toast.error(`${error?.message}`);
         })
         .finally(() => {
           setIsSubmitting(false);
@@ -70,9 +50,9 @@ const Register = () => {
       <Box sx={styles.formContainer}>
         <Box sx={styles.formBox}>
           <Box sx={styles.contentContainer}>
-            <AuthHeading heading="Get Started" />
+            <AuthHeading heading="Forget Password?" />
 
-            <RegisterForm
+            <ForgetPasswordForm
               handleSubmit={formik.handleSubmit}
               values={formik.values}
               handleChange={formik.handleChange}
@@ -81,21 +61,19 @@ const Register = () => {
               touched={formik.touched}
               isSubmitting={formik.isSubmitting}
             />
-            <Box sx={{ marginTop: "40px" }}>
-              <ButtonComponent
-                variant="signup"
-                marginTop="20px"
-                hoverColor={GRADIENTS.brandHover}
-                color="#FFFFFF"
-                backgroundColor={GRADIENTS.brand}
-                buttonTitle="Signup"
-                onClick={formik.handleSubmit}
-                isLoading={isSubmitting}
-              />
-            </Box>
+            <ButtonComponent
+              variant="signup"
+              marginTop="60px"
+              hoverColor={GRADIENTS.brandHover}
+              color="#FFFFFF"
+              backgroundColor={GRADIENTS.brand}
+              buttonTitle="Send"
+              onClick={formik.handleSubmit}
+              isLoading={isSubmitting}
+            />
             <Divider sx={{ mt: 2 }}>
               <Typography sx={styles.dividerText}>
-                Already have an account?
+                Back to
                 <Link sx={styles.loginLink} onClick={() => navigate("/login")}>
                   Log In
                 </Link>
@@ -115,4 +93,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ForgetPassword;

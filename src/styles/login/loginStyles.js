@@ -32,7 +32,7 @@ export const loginStyles = {
     mr: { md: "5%" },
     height: "fit-content",
     alignSelf: "center",
-    py: "4%",
+    py: "2%",
   },
 
   formContainer: {
@@ -81,6 +81,7 @@ export const loginStyles = {
     "@media (max-width: 900px)": {
       width: "80%",
     },
+    alignSelf: "flex-end",
   },
 
   dividerContainer: {
@@ -117,6 +118,7 @@ export const loginStyles = {
     gap: "40px",
     display: "flex",
     flexDirection: "column",
+    marginTop: "50px",
   },
 
   loginFrom: {

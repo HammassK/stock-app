@@ -38,7 +38,7 @@ const Login = () => {
       login(values.email, values.password)
         .then((token) => {
           logIn(token);
-          toast.success("Logged in successfully");
+          toast.success("Logged in successfully.");
           navigate("/dashboard");
         })
         .catch((error) => {

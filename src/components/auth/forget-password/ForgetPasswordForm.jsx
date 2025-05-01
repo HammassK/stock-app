@@ -1,14 +1,11 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import PropTypes from "prop-types";
 import React, { useRef } from "react";
-import { loginStyles } from "../../../styles/login/loginStyles";
 import InputField from "../../common/InputField";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { handleReturnKey } from "../../../utils/helper";
-import { useNavigate } from "react-router-dom";
 
-const LoginForm = ({
+const ForgetPasswordForm = ({
   values,
   handleChange,
   handleBlur,
@@ -17,16 +14,14 @@ const LoginForm = ({
   handleSubmit,
   isSubmitting,
 }) => {
-  const navigate = useNavigate();
-  const styles = loginStyles;
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
 
   return (
-    <Box sx={styles.formBox}>
+    <Box sx={{ marginTop: 2 }}>
       <InputField
         id="email"
-        label="Email"
+        label="Enter your email"
         usericon={true}
         icon={<MailOutlineIcon />}
         placeholder="example@email.com"
@@ -36,47 +31,23 @@ const LoginForm = ({
         onBlur={handleBlur}
         error={touched.email && errors.email}
         inputRef={emailRef}
-        onKeyDown={(event) =>
-          handleReturnKey(event, passwordRef, "email", "next")
-        }
-      />
-
-      <InputField
-        id="password"
-        label="Password"
-        icon={<LockOutlinedIcon />}
-        EyeIcon={true}
-        size="small"
-        type="password"
-        placeholder="Password"
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={touched.password && errors.password}
-        inputRef={passwordRef}
         onKeyDown={(event) => {
           if (!isSubmitting)
             handleReturnKey(
               event,
               passwordRef,
-              "password",
+              "email",
               "submit",
               handleSubmit
             );
         }}
+        sx={{ marginTop: 1 }}
       />
-
-      <Button
-        sx={styles.forgotPasswordButton}
-        onClick={() => navigate("/forget-password")}
-      >
-        Forgot Password?
-      </Button>
     </Box>
   );
 };
 
-LoginForm.propTypes = {
+ForgetPasswordForm.propTypes = {
   values: PropTypes.object,
   handleChange: PropTypes.func,
   handleBlur: PropTypes.func,
@@ -86,4 +57,4 @@ LoginForm.propTypes = {
   handleSubmit: PropTypes.func,
 };
 
-export default LoginForm;
+export default ForgetPasswordForm;
